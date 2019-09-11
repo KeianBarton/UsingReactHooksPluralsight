@@ -1,5 +1,3 @@
-import React, { useState } from "react";
+import AllCombinedForColorisedScroll from "./AllCombinedForColorisedScroll";
 
-import UseRefExample from "./UseRefExample";
-
-export default UseRefExample;
+export default AllCombinedForColorisedScroll;
