@@ -27,3 +27,9 @@ Adding and removing DOM listeners is a great use case for useEffect.
 
 No - but simplifies code and React Hooks are here to stay.
 But we do not need to re-write our code to avoid using class based components.
+
+## Basic Usage and Rules
+
+https://reactjs.org/docs/hooks-rules.html
+- Only call Hooks at the top level (no nesting inside loops, conditions)
+- Only call Hooks from React functions (not from regular JavaScript functions)
