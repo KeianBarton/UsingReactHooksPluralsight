@@ -5,7 +5,7 @@ import ImageTogglerOnScroll from "../src/ImageTogglerOnScroll";
 const AllCombinedForColorisedScroll = () => {  // Primarily used to allow access directly to an element in the DOM
     return (
         <>
-            <p style={{ height: "80vh" }}></p>
+            <p style={{ height: "60vh" }}></p>
             {/* In Next.js, anything we put in a folder called static will be available as a resource to our app with the /static reference */}
             <ImageTogglerOnScroll primaryImg="/static/bw/cube.png"
                                     secondaryImg="/static/cube.png"
