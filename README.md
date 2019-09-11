@@ -13,3 +13,11 @@ Course covers:
 - More advanced Hooks
 - Comparing Hooks
 - Building your own React Hooks
+
+Pure components:
+
+Pure components guarantee no side effects - you can run the same component with the same parameters again and again and get the exact same behaviour.
+Functional components can be free of side effects (and hence a pure component).
+
+React Hook useEffect causes side effects - a function executes upon component instantiation and a function exceutes upon component completion.
+Adding and removing DOM listeners is a great use case for useEffect.
