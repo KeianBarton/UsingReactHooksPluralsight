@@ -15,6 +15,10 @@ https://reactjs.org/docs/hooks-intro.html
 - Comparing Hooks
 - Building your own React Hooks
 
+### Running next app
+
+To run our Next.js app, run the command line "npm run start" or "npm run dev" - see the package.json file
+
 ### Pure components:
 
 Pure components guarantee no side effects - you can run the same component with the same parameters again and again and get the exact same behaviour.
