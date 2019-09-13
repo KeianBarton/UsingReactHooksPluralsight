@@ -5,7 +5,13 @@ const ImageTogglerOnScroll = ({ primaryImg, secondaryImg, alt }) => {
     const imageRef = useRef(null);  // imageRef now has access to the attributes of the image via imageRef.current
     const [isLoading, setIsLoading] = useState(true);
 
-    // Use effect runs after the first render is completed - so we must have a loading state to determine when to render the correct colour
+    // Use effect runs after the first render is completed
+    // so we must have a loading state to determine when to render the correct colour
+    //
+    // Note that for the dependency array:
+    // If it is null - run on every invocation of the component
+    // If it is empty - run only on first invocation of the component
+    // If it has values - runs only when any of the array values change
     useEffect(() => {
         window.addEventListener("scroll", scrollHandler);
         setInView(isInView());                                  // Ensures images do not start in black and white
