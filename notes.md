@@ -45,3 +45,47 @@ https://reactjs.org/docs/hooks-rules.html
 
 `(previousState, action) => newState`
 
+## Migrating existing apps to react Hooks
+
+- `useState` equivalent in class components using setState:
+
+```javascript
+state = {
+    inputText: ""
+}
+
+handleChange = event => {
+    this.setState({
+        inputText: event.target.value
+    });
+};
+```
+
+- `useRef` equivalent in class components using React.createRef:
+
+```javascript
+class MyComp extends React.Component {
+    render() {
+        const imageRef = React.createRef();
+        return <img src="x.png" ref={imageRef} />;
+    }
+}
+```
+
+- `useEffect` equivalent in class components:
+
+```javascript
+class MyComp extends React.Component {
+    componentDidMount() {
+        console.log("mounting");
+    }
+    componentDidUpdate(prevProps, prevState) {
+        console.log("dependency-chk");
+        // relates to dependency array in useEffect
+    }
+    componentWillUnmount() {
+        console.log("dismounting");
+    }
+}
+```
+
