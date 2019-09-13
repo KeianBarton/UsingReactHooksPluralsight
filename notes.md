@@ -89,3 +89,16 @@ class MyComp extends React.Component {
 }
 ```
 
+## Axios can be used for writing RESTful API calls and responses
+
+See code here for a custom hook that uses Axios to run a fetch:
+https://github.com/pkellner/pluralsight-course-using-react-hooks/blob/master/05-Combing-React-Hooks-REST-Example/clip6-revising-speaker-favorite-update/src/useAxiosFetch.js
+
+Here is where it is implemented
+https://github.com/pkellner/pluralsight-course-using-react-hooks/blob/master/05-Combing-React-Hooks-REST-Example/clip6-revising-speaker-favorite-update/src/Speakers.js
+Note that we in the RESTful response of a fetch, a URL for a put is provided
+
+This code uses Json server to mimic a server for changing data in a JSON file
+https://github.com/typicode/json-server
+
+
