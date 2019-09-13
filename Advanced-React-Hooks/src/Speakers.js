@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useReducer } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../static/site.css";
@@ -10,12 +10,33 @@ import SpeakerDetail from "./SpeakerDetail";
 // Importing the ConfigContext so we can make use of useContext
 import { ConfigContext } from "./App";
 
+// Importing reducer to manipulate the state of the speakersList separately
+import speakersReducer from "./speakersReducer";
+
 // Sorts and filters speakers ready to be rendered
 const Speakers = ({}) => {
   const [speakingSaturday, setSpeakingSaturday] = useState(true);
   const [speakingSunday, setSpeakingSunday] = useState(true);
 
-  const [speakerList, setSpeakerList] = useState([]);
+  //const [speakerList, setSpeakerList] = useState([]);
+  // useState uses useReducer under the hood:
+  //
+  // const [speakerList, setSpeakerList] = useReducer((state, action) => action, []);
+  //
+  // Why is the boiler plate for a general reducer is (state, action) => action (or
+  // function(state, action) { return action; }) and not (state, action) => action(state)
+  // The dispatcher behind the scenes (e.g. setSpeakerList(newState)) calls reducer with
+  // speakerList, newState
+  // Well, why is the basic reducer not (state, newState) => newState then?
+  // Because there are other ways you could call the dispatcher depending on how you want
+  // to set it up e.g.
+  // (state, action) => { switch (action.type) ... return {count:1} or {count:2}} }
+  // and call the dispatcher with setSpeakerList({type: "increment"}) - see:
+  // https://reactjs.org/docs/hooks-reference.html#usereducer
+  // i.e. the default reducer used by useState is (state, action) => action
+
+  const [speakerList, dispatch] = useReducer(speakersReducer, []);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const context = useContext(ConfigContext);  // !!!!!!!!!!!! 
@@ -31,7 +52,11 @@ const Speakers = ({}) => {
       const speakerListServerFilter = SpeakerData.filter(({ sat, sun }) => {
         return (speakingSaturday && sat) || (speakingSunday && sun);
       });
-      setSpeakerList(speakerListServerFilter);
+      // setSpeakerList(speakerListServerFilter);
+      dispatch({
+        type: "setSpeakerList",
+        data: speakerListServerFilter
+      });
     });
     return () => {
       console.log("cleanup");
@@ -65,13 +90,17 @@ const Speakers = ({}) => {
   const heartFavoriteHandler = (e, favoriteValue) => {
     e.preventDefault();
     const sessionId = parseInt(e.target.attributes["data-sessionid"].value);
-    setSpeakerList(speakerList.map(item => {
-      if (item.id === sessionId) {
-        item.favorite = favoriteValue;
-        return item;
-      }
-      return item;
-    }));
+    // setSpeakerList(speakerList.map(item => {   handled in reducer instead
+    //   if (item.id === sessionId) {
+    //     item.favorite = favoriteValue;
+    //     return item;
+    //   }
+    //   return item;
+    // }));
+    dispatch({
+      type: favoriteValue === true ? "favorite" : "unfavorite",
+      sessionId
+    });
   };
 
   if (isLoading) return <div>Loading...</div>;

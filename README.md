@@ -37,3 +37,11 @@ But we do not need to re-write our code to avoid using class based components.
 https://reactjs.org/docs/hooks-rules.html
 - Only call Hooks at the top level (no nesting inside loops, conditions)
 - Only call Hooks from React functions (not from regular JavaScript functions)
+
+## useReducer
+
+- useState is build with useReducer under it
+- A reducer takes in a previous state, an action and returns a new state:
+
+`(previousState, action) => newState`
+
