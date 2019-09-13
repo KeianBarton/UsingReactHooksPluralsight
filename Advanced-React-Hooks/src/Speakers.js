@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer, useCallback } from "react";
+import React, { useState, useEffect, useContext, useReducer, useCallback, useMemo } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../static/site.css";
@@ -67,21 +67,29 @@ const Speakers = ({}) => {
     setSpeakingSaturday(!speakingSaturday);
   };
 
-  const speakerListFiltered = isLoading
-    ? []
-    : speakerList
-        .filter(
-          ({ sat, sun }) => (speakingSaturday && sat) || (speakingSunday && sun)
-        )
-        .sort((a, b) => {
-          if (a.firstName < b.firstName) {
-            return -1;
-          }
-          if (a.firstName > b.firstName) {
-            return 1;
-          }
-          return 0;
-        });
+  // you cannot use useMemo conditionally - violates React's hook rules
+  // e.g. speakerListFiltered = isLoading ? [] : useMemo(...)
+  //
+  // We memoise this so it only be recalculated on a re-render (i.e. just above "return") if
+  // any of speakingSaturday, speakingSunday, speakerList change, instead of
+  // re-calculating on every re-render of Speakers
+  // You can check this works by removing speakingSaturday and notice that toggling Saturday
+  // checkbox does not trigger a re-render
+  const newSpeakerList = useMemo(() => speakerList   
+    .filter(
+      ({ sat, sun }) => (speakingSaturday && sat) || (speakingSunday && sun)
+    )
+    .sort((a, b) => {
+      if (a.firstName < b.firstName) {
+        return -1;
+      }
+      if (a.firstName > b.firstName) {
+        return 1;
+      }
+      return 0;
+    }), [speakingSaturday, speakingSunday, speakerList]);
+
+  const speakerListFiltered = isLoading ? [] : newSpeakerList;
 
   const handleChangeSunday = () => {
     setSpeakingSunday(!speakingSunday);
@@ -105,7 +113,7 @@ const Speakers = ({}) => {
     });
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return (<div>Loading...</div>);
 
   return (
     <div>
