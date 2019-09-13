@@ -1,6 +1,6 @@
 import ImageToggleOnScroll from "./ImageToggleOnScroll";
 
-const SpeakerDetail = ({
+const SpeakerDetail = React.memo(({ // returns cached (memoised) version of the functional component
                            id,
                            firstName,
                            lastName,
@@ -34,6 +34,6 @@ const SpeakerDetail = ({
             </div>
         </div>
     );
-};
+});
 
 export default SpeakerDetail;

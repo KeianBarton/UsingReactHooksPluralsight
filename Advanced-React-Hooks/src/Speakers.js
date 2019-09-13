@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer } from "react";
+import React, { useState, useEffect, useContext, useReducer, useCallback } from "react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../static/site.css";
@@ -87,7 +87,9 @@ const Speakers = ({}) => {
     setSpeakingSunday(!speakingSunday);
   };
 
-  const heartFavoriteHandler = (e, favoriteValue) => {
+  // We use useCallback to memoise this function so that it only changes
+  // if the parameters change
+  const heartFavoriteHandler = useCallback((e, favoriteValue) => {
     e.preventDefault();
     const sessionId = parseInt(e.target.attributes["data-sessionid"].value);
     // setSpeakerList(speakerList.map(item => {   handled in reducer instead
@@ -101,7 +103,7 @@ const Speakers = ({}) => {
       type: favoriteValue === true ? "favorite" : "unfavorite",
       sessionId
     });
-  };
+  }, []);
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -147,7 +149,11 @@ const Speakers = ({}) => {
                     key={id}
                     id={id}
                     favorite={favorite}
-                    onHeartFavoriteHandler={heartFavoriteHandler}
+                    // without using useCallback, React does not know that this function is not changing
+                    // so causes a re-render of all speakers every time a heart button is clicked
+                    // This needs to be done in conjunction with memoise what the SpeakerDetail page is
+                    // returning
+                    onHeartFavoriteHandler={heartFavoriteHandler} 
                     firstName={firstName}
                     lastName={lastName}
                     bio={bio}
