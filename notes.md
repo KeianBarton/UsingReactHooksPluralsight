@@ -102,3 +102,14 @@ This code uses Json server to mimic a server for changing data in a JSON file
 https://github.com/typicode/json-server
 
 
+## An example of authentication is given
+
+https://github.com/pkellner/pluralsight-course-using-react-hooks/tree/master/06-Adding-Authentication-Login-With-Hooks-Support
+
+Email is provided in the context and extracted with useContext
+
+Recommends looking at securing React Apps with AuthO:
+https://app.pluralsight.com/library/courses/react-auth0-authentication-security/table-of-contents
+
+Uses Passport:
+http://www.passportjs.org/
