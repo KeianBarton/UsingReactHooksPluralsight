@@ -70,11 +70,10 @@ const Speakers = ({}) => {
   // you cannot use useMemo conditionally - violates React's hook rules
   // e.g. speakerListFiltered = isLoading ? [] : useMemo(...)
   //
-  // We memoise this so it only be recalculated on a re-render (i.e. just above "return") if
-  // any of speakingSaturday, speakingSunday, speakerList change, instead of
-  // re-calculating on every re-render of Speakers
+  // We memoise this so it only be recalculated if
+  // any of speakingSaturday, speakingSunday, speakerList change
   // You can check this works by removing speakingSaturday and notice that toggling Saturday
-  // checkbox does not trigger a re-render
+  // checkbox does not trigger a re-render (since newSpeakerList hasn't changed behind the scenes)
   const newSpeakerList = useMemo(() => speakerList   
     .filter(
       ({ sat, sun }) => (speakingSaturday && sat) || (speakingSunday && sun)
